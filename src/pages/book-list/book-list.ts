@@ -1,12 +1,7 @@
+import { BookRestProvider } from './../../providers/book-rest/book-rest';
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the BookListPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-book-list',
@@ -14,14 +9,18 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class BookListPage {
 
+  books:Book;
   category:string;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public bookrsest:BookRestProvider ,public  navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewWillEnter(){
     this.category=this.navParams.get("category");
-    console.log(this.category)
+    this.bookrsest.getbookList().subscribe(data=>{
+      this.books=data.filter (book => book.category === this.category) ;
+    });
+    
   }
 
   ionViewDidLoad() {
