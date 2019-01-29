@@ -6,13 +6,13 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class BookRestProvider {
 
-  private url:string="https://raw.githubusercontent.com/kesinee-bo/Images/master/cs_books.json"
+  private url:string="https://comscifeejah-bookshop.herokuapp.com"
 
   constructor(public http: HttpClient) {
     console.log('Hello BookRestProvider Provider');
   }
 
   getbookList():Observable<any>{
-    return this.http.get<Book>(this.url);
+    return this.http.get<Book>(this.url +'/books');
   }
 }
