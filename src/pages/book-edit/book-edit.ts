@@ -1,0 +1,53 @@
+import { BookRestProvider } from './../../providers/book-rest/book-rest';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+
+/**
+ * Generated class for the BookEditPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+
+@Component({
+  selector: 'page-book-edit',
+  templateUrl: 'book-edit.html',
+})
+export class BookEditPage {
+
+  bookid:number;
+  book:Book;
+
+  constructor(public bookrsest:BookRestProvider ,public navCtrl: NavController, public navParams: NavParams) {
+  }
+
+  ionViewWillEnter(){
+    this.bookid= this.navParams.get("bookid");
+    this.bookrsest.getbookList().subscribe(data=>{
+      this.book=data.filter (book => book.bookid=== this.bookid)[0];
+    });
+  }
+
+  ionViewDidLoad() {
+    this.bookid= this.navParams.get("bookid");
+    console.log(this.bookid);
+  }
+
+  saveBook(){    
+    this.bookrsest.editBook(this.book).then((result) => {
+      console.log(result);
+    }, (err) => {      
+      console.log(err);
+    });
+
+    setTimeout(() => {
+      this.navCtrl.pop();
+    }, 500);
+    
+  
+
+  goBack(){
+    this.navCtrl.pop();
+  }
+
+}
