@@ -1,4 +1,5 @@
 import { BookRestProvider } from './../../providers/book-rest/book-rest';
+import { Book } from './../../models/book.model';
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
@@ -18,23 +19,23 @@ export class BookEditPage {
   bookid:number;
   book:Book;
 
-  constructor(public bookrsest:BookRestProvider ,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public bookrest:BookRestProvider, public navCtrl:NavController, public navParams: NavParams) {
   }
 
   ionViewWillEnter(){
-    this.bookid= this.navParams.get("bookid");
-    this.bookrsest.getbookList().subscribe(data=>{
-      this.book=data.filter (book => book.bookid=== this.bookid)[0];
+    this.bookid=this.navParams.get("bookid");
+    this.bookrest.getbookList().subscribe(data=>{
+      this.book=data.filter(book => book.bookid === this.bookid)[0];
     });
   }
 
   ionViewDidLoad() {
-    this.bookid= this.navParams.get("bookid");
+    this.bookid=this.navParams.get("bookid");
     console.log(this.bookid);
   }
 
   saveBook(){    
-    this.bookrsest.editBook(this.book).then((result) => {
+    this.bookrest.editBook(this.book).then((result) => {
       console.log(result);
     }, (err) => {      
       console.log(err);
@@ -44,10 +45,12 @@ export class BookEditPage {
       this.navCtrl.pop();
     }, 500);
     
-  
+  }
+
 
   goBack(){
     this.navCtrl.pop();
   }
+
 
 }
